@@ -1,7 +1,18 @@
 {
     "clients": [
         {
-            "can_network_id": 0
+            "can_network_id": 0,
+            "client_id": 1,
+            "data_serialization_type": "",
+            "dev_id": 0,
+            "instruction_serialization_type": "",
+            "ip": "",
+            "link_type": "can",
+            "port": 0,
+            "user_interface_major_v": 1,
+            "user_interface_minor_v": 0,
+            "user_interface_name": "umrr9d_t152_automotive",
+            "user_interface_patch_v": 3
         }
     ],
     "name": "Client Routing Table",

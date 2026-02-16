@@ -2,7 +2,8 @@
 work_dir=$(pwd)
 set -e
 
-cd /code/simulator/simulation
+#cd /code/simulator/simulation
+
 
 mkdir -p build_dir
 cmake -G "Unix Makefiles" -S. -Bbuild_dir \

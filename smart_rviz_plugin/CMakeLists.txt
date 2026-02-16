@@ -95,6 +95,12 @@ install(
   DESTINATION include/
 )
 
+# Install config files (RViz configs, etc.)
+install(
+  DIRECTORY config/
+  DESTINATION share/${PROJECT_NAME}/config/
+)
+
 ament_export_targets(smart_rviz_plugin HAS_LIBRARY_TARGET)
 ament_export_dependencies(
   rclcpp

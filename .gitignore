@@ -14,3 +14,4 @@ umrr_ros2_driver/smartmicro/include/*
 !umrr_ros2_driver/smartmicro/include/InstructionBuffer.h
 !umrr_ros2_driver/smartmicro/include/Types.h
 !umrr_ros2_driver/smartmicro/Readme.md
+*.tgz
