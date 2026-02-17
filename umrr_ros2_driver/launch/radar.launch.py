@@ -35,6 +35,9 @@ def generate_launch_description():
     radar__params = os.path.join(
            get_package_share_directory(PACKAGE_NAME), 'param/radar.params.yaml')
 
+    filter__params = os.path.join(
+           get_package_share_directory(PACKAGE_NAME), 'param/radar_filter.params.yaml')
+
     # RViz2 configuration file
     rviz_config = os.path.join(
         get_package_share_directory('smart_rviz_plugin'),
@@ -45,7 +48,18 @@ def generate_launch_description():
         package=PACKAGE_NAME,
         executable='smartmicro_radar_node_exe',
         name='smart_radar',
-        parameters=[radar__params]
+        parameters=[radar__params],
+        respawn=False,
+        #respawn_delay=2.0,
+        output='screen'
+    )
+
+    filter_node = Node(
+        package=PACKAGE_NAME,
+        executable='radar_filter_node_exe',
+        name='radar_filter',
+        parameters=[filter__params],
+        output='screen'
     )
 
     rviz_node = Node(
@@ -58,6 +72,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         radar_node,
+        filter_node,
         rviz_node
     ])
 

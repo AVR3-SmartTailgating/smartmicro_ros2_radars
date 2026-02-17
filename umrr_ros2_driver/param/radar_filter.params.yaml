@@ -1,0 +1,66 @@
+/radar_filter:
+  ros__parameters:
+    # Input/output topic configuration
+    input_targets_topic: "smart_radar/can_targets_0"
+    input_header_topic: "smart_radar/can_targetheader_0"
+    output_targets_topic: "smart_radar/can_targets_0/filtered"
+    output_header_topic: "smart_radar/can_targetheader_0/filtered"
+    qos_depth: 10
+
+    # --- Filter enable flags ---
+    # Each filter can be independently enabled/disabled.
+    # All combinations are supported. Change at runtime with:
+    #   ros2 param set /radar_filter enable_range_gate false
+    enable_range_gate: true
+    enable_azimuth_gate: true
+    enable_elevation_gate: true
+    enable_snr_filter: true
+    enable_rcs_filter: true
+    enable_speed_filter: true
+    enable_persistence_filter: true # stateful - disabled by default (cold start delay)
+    enable_cluster_filter: true # DBSCAN - disabled by default
+
+    # --- Range gate ---
+    # Discard targets outside [range_min, range_max] meters
+    range_min: 1.0
+    range_max: 65.0
+
+    # --- Azimuth gate ---
+    # Discard targets outside [-azimuth_max, +azimuth_max] radians
+    # 0.105 rad = ~6 degrees (roughly one lane width at 60m)
+    azimuth_max: 0.105
+
+    # --- Elevation / height gate ---
+    # Discard targets by elevation angle AND z-height
+    # Removes road surface reflections (below) and overhead structures (above)
+    elevation_min: -0.087 # ~-5 degrees
+    elevation_max: 0.087 # ~+5 degrees
+    z_min: -0.5 # meters below sensor
+    z_max: 3.0 # meters above sensor
+
+    # --- SNR threshold ---
+    # Discard targets below this signal-to-noise ratio (dB)
+    snr_min: 12.0
+
+    # --- RCS filter ---
+    # Discard targets below this radar cross section (dBsm)
+    # Passenger car rear ~10-20 dBsm, guardrails/debris ~-10 to 5 dBsm
+    rcs_min: 5.0
+
+    # --- Radial speed filter ---
+    # Discard targets with |radial_speed| < speed_min (m/s)
+    # Removes stationary clutter (guardrails, signs) when vehicle is moving
+    speed_min: 0.5
+
+    # --- Temporal persistence ---
+    # Require a target to appear in at least N of the last M scans
+    # Uses nearest-neighbor association in (x,y) space
+    persistence_n: 3 # minimum appearances required (including current scan)
+    persistence_m: 5 # scan window size
+    persistence_dist: 2.0 # association distance threshold (meters)
+
+    # --- Spatial clustering (DBSCAN) ---
+    # Reject isolated single-point detections
+    # A real vehicle produces multiple radar returns within a cluster
+    cluster_eps: 2.0 # maximum neighbor distance (meters)
+    cluster_min_points: 2 # minimum points to form a cluster

@@ -140,6 +140,16 @@ rclcpp_components_register_node(smartmicro_radar_node
     EXECUTABLE smartmicro_radar_node_exe
 )
 
+# --- Radar Filter Node ---
+ament_auto_add_library(radar_filter_node SHARED
+    "src/radar_filter_node.cpp"
+)
+
+rclcpp_components_register_node(radar_filter_node
+    PLUGIN "smartmicro::drivers::radar::RadarFilterNode"
+    EXECUTABLE radar_filter_node_exe
+)
+
 if(BUILD_TESTING)
     find_package(launch_testing_ament_cmake)
     add_launch_test(test/radar_node_test.launch.py TIMEOUT "100")
