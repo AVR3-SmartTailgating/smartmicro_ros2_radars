@@ -1,0 +1,15 @@
+/radar_cluster_viz:
+  ros__parameters:
+    # Input: filtered PointCloud2 from radar_filter_node
+    input_topic: "smart_radar/can_targets_0/filtered"
+    # Output: MarkerArray for RViz visualization
+    output_topic: "smart_radar/cluster_markers"
+    qos_depth: 10
+
+    # DBSCAN clustering parameters
+    cluster_eps: 2.0        # max neighbor distance (meters)
+    cluster_min_points: 2   # min points to form a cluster
+
+    # Visualization parameters
+    marker_alpha: 0.4       # bounding box transparency (0=invisible, 1=opaque)
+    marker_z_height: 1.0    # fixed Z extent of bounding boxes (meters)

@@ -12,17 +12,17 @@
     # All combinations are supported. Change at runtime with:
     #   ros2 param set /radar_filter enable_range_gate false
     enable_range_gate: true
-    enable_azimuth_gate: true
-    enable_elevation_gate: true
+    enable_azimuth_gate: false
+    enable_elevation_gate: false
     enable_snr_filter: true
     enable_rcs_filter: true
-    enable_speed_filter: true
-    enable_persistence_filter: true # stateful - disabled by default (cold start delay)
-    enable_cluster_filter: true # DBSCAN - disabled by default
+    enable_speed_filter: false # disabled for slow-platform testing (rejects static targets)
+    enable_persistence_filter: false # stateful - disabled by default (cold start delay)
+    enable_cluster_filter: false # DBSCAN - disabled by default
 
     # --- Range gate ---
     # Discard targets outside [range_min, range_max] meters
-    range_min: 1.0
+    range_min: 0.5
     range_max: 65.0
 
     # --- Azimuth gate ---

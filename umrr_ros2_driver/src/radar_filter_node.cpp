@@ -12,6 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Filter Pipeline Summary:
+// 1. Range Gate — Rejects points outside a [min, max] radial distance window (meters).
+// 2. Azimuth Gate — Rejects points whose horizontal angle exceeds a symmetric threshold (radians).
+// 3. Elevation/Height Gate — Rejects points outside elevation angle bounds and a Z-height window.
+// 4. SNR Filter — Rejects points below a signal-to-noise ratio threshold (dB).
+// 5. RCS Filter — Rejects points below a radar cross-section threshold (dBsm), removing weak reflectors.
+// 6. Speed Filter — Rejects points with radial speed below a threshold, filtering out stationary clutter.
+// 7. Persistence Filter — Tracks detections across the last M scans using nearest-neighbor association;
+//    keeps only points that appeared in at least N of those scans.
+// 8. Cluster Filter (DBSCAN) — Groups nearby points by 2D (x,y) proximity; isolated points that don't
+//    belong to any cluster of minimum size are rejected as noise.
+
 #include "umrr_ros2_driver/radar_filter_node.hpp"
 
 #include <point_cloud_msg_wrapper/point_cloud_msg_wrapper.hpp>

@@ -150,6 +150,16 @@ rclcpp_components_register_node(radar_filter_node
     EXECUTABLE radar_filter_node_exe
 )
 
+# --- Radar Cluster Visualization Node ---
+ament_auto_add_library(radar_cluster_viz_node SHARED
+    "src/radar_cluster_viz_node.cpp"
+)
+
+rclcpp_components_register_node(radar_cluster_viz_node
+    PLUGIN "smartmicro::drivers::radar::RadarClusterVizNode"
+    EXECUTABLE radar_cluster_viz_node_exe
+)
+
 if(BUILD_TESTING)
     find_package(launch_testing_ament_cmake)
     add_launch_test(test/radar_node_test.launch.py TIMEOUT "100")
