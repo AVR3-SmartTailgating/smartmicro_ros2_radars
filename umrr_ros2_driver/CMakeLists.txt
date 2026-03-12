@@ -46,7 +46,7 @@ endif()
 
 ament_auto_find_build_dependencies()
 
-set(SMARTMICRO_LIB_DIR "lib-linux-x86_64-gcc_9")
+set(SMARTMICRO_LIB_DIR "lib-linux-armv8-gcc_12")
 
 # specify the path to search for the libraries
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/smartmicro/${SMARTMICRO_LIB_DIR})
@@ -111,7 +111,7 @@ smartmicro/include/umrr9f_t169_mse_v1_0_0
 smartmicro/include/umrr9f_t169_mse_v1_1_0
 smartmicro/include/umrra4_mse_v1_0_0)
 
-# link smart_access_lib-linux-x86_64-gcc_9 to the node
+# link smart_access_lib-linux-armv8-gcc_12 to the node
 target_link_libraries(smartmicro_radar_node
     smart_access
     nlohmann_json::nlohmann_json
