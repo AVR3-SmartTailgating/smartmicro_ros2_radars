@@ -19,26 +19,24 @@ from ament_index_python import get_package_share_directory
 from launch_ros.actions import Node
 
 from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.substitutions import LaunchConfiguration
 
 PACKAGE_NAME = 'umrr_ros2_driver'
 
 
-def generate_launch_description():
-    """Generate the launch description.
-
-    Note: CAN interface should be configured using the setup script:
-        sudo ./scripts/setup_can_interface.sh can0 500000
-
-    This installs udev rules for automatic CAN interface configuration.
-    """
+def launch_setup(context, *args, **kwargs):
+    radar_model = LaunchConfiguration('radar_model').perform(context)
 
     radar__params = os.path.join(
-           get_package_share_directory(PACKAGE_NAME), 'param/radar.params.yaml')
+        get_package_share_directory(PACKAGE_NAME),
+        'param',
+        f'{radar_model}_radar.params.yaml',
+    )
 
     filter__params = os.path.join(
-           get_package_share_directory(PACKAGE_NAME), 'param/radar_filter.params.yaml')
+        get_package_share_directory(PACKAGE_NAME), 'param/radar_filter.params.yaml')
 
-    # RViz2 configuration file
     rviz_config = os.path.join(
         get_package_share_directory('smart_rviz_plugin'),
         'config/rviz/drv152.rviz'
@@ -50,7 +48,6 @@ def generate_launch_description():
         name='smart_radar',
         parameters=[radar__params],
         respawn=False,
-        #respawn_delay=2.0,
         output='screen'
     )
 
@@ -70,10 +67,26 @@ def generate_launch_description():
         output='screen'
     )
 
-    return LaunchDescription([
-        radar_node,
-        filter_node,
-        rviz_node
-    ])
+    return [radar_node, filter_node, rviz_node]
 
-    
+
+def generate_launch_description():
+    """Generate the launch description.
+
+    Note: CAN interface should be configured using the setup script:
+        sudo ./scripts/setup_can_interface.sh can0 500000
+
+    This installs udev rules for automatic CAN interface configuration.
+    """
+
+    radar_model_arg = DeclareLaunchArgument(
+        'radar_model',
+        default_value='152',
+        choices=['152', '171'],
+        description='Radar model to load parameters for ("152" or "171").'
+    )
+
+    return LaunchDescription([
+        radar_model_arg,
+        OpaqueFunction(function=launch_setup),
+    ])

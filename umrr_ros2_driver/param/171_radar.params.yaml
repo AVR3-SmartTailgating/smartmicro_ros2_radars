@@ -1,0 +1,43 @@
+/smart_radar:
+  ros__parameters:
+    adapters:
+      adapter_0:
+        hw_type: "can"
+        hw_dev_id: 0
+        hw_iface_name: "can0"
+        baudrate: 500000
+    master_inst_serial_type: "can" #"can_based"
+    master_data_serial_type: "can" #"can_based"
+    sensors:
+      # As many as 10 sensors all named as "sensor_<number>" in increasing order of numbers,
+      # e.g., sensor_0, sensor_1, etc. The list must start with sensor_0.
+      #
+      # Sensor `model` names if using link type:
+      # can: 'umrra4_can_mse_v1_0_0', 'umrr9f_can_mse_v1_1_0', 'umrr9f_can_mse_v1_0_0', 'umrr96_can_v1_2_2', 'umrr11_can_v1_1_2', 'umrr9f_can_v2_1_1', 'umrr9f_can_v2_2_1',
+      #      'umrr9f_can_v2_4_1'. 'umrr9d_can_v1_0_3', 'umrr9d_can_v1_2_2', 'umrr9d_can_v1_4_1', 'umrr9d_can_v1_5_0', 'umrra4_can_v1_0_1', 'umrra4_can_v1_2_1', 'umrra4_can_v1_4_0'
+      #
+      # port: 'umrra4_mse_v1_0_0', 'umrr9f_mse_v1_1_0', 'umrr9f_mse_v1_0_0', 'umrr96_v1_2_2', 'umrr11_v1_1_2', 'umrr9f_v2_1_1', 'umrr9f_v2_2_1', 'umrr9f_v2_4_1'. 'umrr9d_v1_0_3',
+      #       'umrr9d_v1_2_2', 'umrr9d_v1_4_1', 'umrr9d_v1_5_0', 'umrra4_v1_0_1', 'umrra4_v1_2_1', 'umrra4_v1_4_0'
+      sensor_0:
+        # The model of the connected sensor. Available models umrr11, umrr9d, umrr96,
+        # umrr9f_v1_1_1, umrr9f_v2_0_0
+        link_type: "can"
+        # The publisher type of the sensor
+        pub_type: "mse" #"target" #mse other option - mobile speed enforcement
+        model: "umrra4_can_mse_v1_0_0" #"umrra4_can_v1_4_0" #MUST BE CAN MODEL
+        #  The client_id of the sensor/source, must be a unique integer.
+        id: 1
+        # Adapter id to which sensor is connected
+        dev_id: 0
+        # The interface name of the sensor
+        uifname: "umrra4_mse" #"umrra4_automotive" #MUST BE AUTOMOTIVE MODEL
+        # The major version of the interface
+        uifmajorv: 1 #1
+        # The minor version of the interface
+        uifminorv: 0 #4
+        # The pathc version of the interface
+        uifpatchv: 0
+        # The frame_id to be set to the published messages.
+        frame_id: "umrr_radar"
+        # Specify the history size.
+        history_size: 10
